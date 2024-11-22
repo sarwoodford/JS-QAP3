@@ -45,8 +45,30 @@ app.get("/login", (request, response) => {
 });
 
 // POST /login - Allows a user to login
-app.post("/login", (request, response) => {
+app.post("/login", async (request, response) => {
+    const { email, password } = req.body;
 
+    // make sure user is valid
+    const user = USER.find(user => user.email === email);
+    if(!user){
+        return res.render("login", {error: "Invalid login information entered. Please retry."});
+    }
+
+    // make sure password is valid 
+    const validPassword = await bcrypt.compare(password, user.password);
+    if (!validPassword){
+        return res.render("login", {error : "Invalid login information entered. Please retry."})
+    }
+
+    // save user 
+    req.session.user = {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        role: user.role,
+    };
+
+    res.redirect("/landing");
 });
 
 // GET /signup - Render signup form
