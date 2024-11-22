@@ -120,12 +120,21 @@ app.get("/landing", (request, response) => {
     const user = req.session.user;
 
     // displays dashboard if user is an admin
-    
+
     if(user.role === 'admin'){
         return res.render("landing", { user, users: USERS });
     }else {
         return res.render("landing", { user, user : null});
     }
+});
+
+app.post("/logout", (request, response) => {
+    req.session.destroy(err => {
+        if(err){
+            return res.status(500).send("Cannot logout. Please retry.");
+        }
+        res.redirect("/");
+    });
 });
 
 // Start server
