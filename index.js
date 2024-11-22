@@ -45,11 +45,11 @@ app.get("/login", (request, response) => {
 });
 
 // POST /login - Allows a user to login
-app.post("/login", async (request, response) => {
+app.post("/login", async (req, res) => {
     const { email, password } = req.body;
 
     // make sure user is valid
-    const user = USER.find(user => user.email === email);
+    const user = USERS.find(user => user.email === email);
     if(!user){
         return res.render("login", {error: "Invalid login information entered. Please retry."});
     }
@@ -77,8 +77,8 @@ app.get("/signup", (request, response) => {
 });
 
 // POST /signup - Allows a user to signup
-app.post("/signup", async (request, response) => {
-    const { email, username, pasword } = req.body;
+app.post("/signup", async (req, res) => {
+    const { email, username, password } = req.body;
 
     // check if email is already used
     const userExists = USERS.find(user => user.email === email);
@@ -91,7 +91,7 @@ app.post("/signup", async (request, response) => {
 
     // create user if email isnt already used
     const newUser = {
-        id: USERS.length+1,
+        id: USERS.length + 1,
         username,
         email,
         password: hashPassword,
@@ -112,9 +112,9 @@ app.get("/", (request, response) => {
 });
 
 // GET /landing - Shows a welcome page for users, shows the names of all users if an admin
-app.get("/landing", (request, response) => {
+app.get("/landing", (req, res) => {
     if(!req.session.user){
-        return res.redirect("login");
+        return res.redirect("/login");
     }
 
     const user = req.session.user;
@@ -124,11 +124,11 @@ app.get("/landing", (request, response) => {
     if(user.role === 'admin'){
         return res.render("landing", { user, users: USERS });
     }else {
-        return res.render("landing", { user, user : null});
+        return res.render("landing", { user, users : null});
     }
 });
 
-app.post("/logout", (request, response) => {
+app.post("/logout", (req, res) => {
     req.session.destroy(err => {
         if(err){
             return res.status(500).send("Cannot logout. Please retry.");
