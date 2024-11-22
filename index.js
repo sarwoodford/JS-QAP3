@@ -77,8 +77,30 @@ app.get("/signup", (request, response) => {
 });
 
 // POST /signup - Allows a user to signup
-app.post("/signup", (request, response) => {
-    
+app.post("/signup", async (request, response) => {
+    const { email, username, pasword } = req.body;
+
+    // check if email is already used
+    const userExists = USERS.find(user => user.email === email);
+    if (userExists){
+        return res.render("signup", { error: "A user with this email already exists."})
+    }
+
+    // hash password 
+    const hashPassword = await bcrypt.hash( password, SALT_ROUNDS );
+
+    // create user if email isnt already used
+    const newUser = {
+        id: USERS.length+1,
+        username,
+        email,
+        password: hashPassword,
+        role: "user",
+    };
+
+    // add new user to users 
+    USERS.push(newUser);
+    res.redirect("/login");
 });
 
 // GET / - Render index page or redirect to landing if logged in
