@@ -113,7 +113,19 @@ app.get("/", (request, response) => {
 
 // GET /landing - Shows a welcome page for users, shows the names of all users if an admin
 app.get("/landing", (request, response) => {
+    if(!req.session.user){
+        return res.redirect("login");
+    }
+
+    const user = req.session.user;
+
+    // displays dashboard if user is an admin
     
+    if(user.role === 'admin'){
+        return res.render("landing", { user, users: USERS });
+    }else {
+        return res.render("landing", { user, user : null});
+    }
 });
 
 // Start server
