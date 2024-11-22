@@ -1,0 +1,25 @@
+<%- include('partials/header', {title: "Dashboard" }) %>
+
+<h1>Welcome!</h1>
+<h2> <%= user.username %>, explore our system!😊</h2>
+
+<% if(user.role === "admin"){ %>
+<h3>Registered Users: </h3>
+<ul>
+    <% users.forEach(u => { %>
+        <li>
+            <%= u.username %>: <em> <%= u.email %> --- <%= u.role %> </em>
+        </li>
+    <% }) %>
+</ul>
+<% } else { %>
+    <p>Nothing to see here!</p>
+<% } %>
+
+<form action= "/logout" method= "POST">
+    <button type="submit">
+        Logout
+    </button>
+</form>
+
+<%- include('partials/footer') %>
