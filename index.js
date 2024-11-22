@@ -45,8 +45,30 @@ app.get("/login", (request, response) => {
 });
 
 // POST /login - Allows a user to login
-app.post("/login", (request, response) => {
+app.post("/login", async (req, res) => {
+    const { email, password } = req.body;
 
+    // make sure user is valid
+    const user = USERS.find(user => user.email === email);
+    if(!user){
+        return res.render("login", {error: "Invalid login information entered. Please retry."});
+    }
+
+    // make sure password is valid 
+    const validPassword = await bcrypt.compare(password, user.password);
+    if (!validPassword){
+        return res.render("login", {error : "Invalid login information entered. Please retry."})
+    }
+
+    // save user 
+    req.session.user = {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        role: user.role,
+    };
+
+    res.redirect("/landing");
 });
 
 // GET /signup - Render signup form
@@ -55,8 +77,30 @@ app.get("/signup", (request, response) => {
 });
 
 // POST /signup - Allows a user to signup
-app.post("/signup", (request, response) => {
-    
+app.post("/signup", async (req, res) => {
+    const { email, username, password } = req.body;
+
+    // check if email is already used
+    const userExists = USERS.find(user => user.email === email);
+    if (userExists){
+        return res.render("signup", { error: "A user with this email already exists."})
+    }
+
+    // hash password 
+    const hashPassword = await bcrypt.hash( password, SALT_ROUNDS );
+
+    // create user if email isnt already used
+    const newUser = {
+        id: USERS.length + 1,
+        username,
+        email,
+        password: hashPassword,
+        role: "user",
+    };
+
+    // add new user to users 
+    USERS.push(newUser);
+    res.redirect("/login");
 });
 
 // GET / - Render index page or redirect to landing if logged in
@@ -68,8 +112,29 @@ app.get("/", (request, response) => {
 });
 
 // GET /landing - Shows a welcome page for users, shows the names of all users if an admin
-app.get("/landing", (request, response) => {
-    
+app.get("/landing", (req, res) => {
+    if(!req.session.user){
+        return res.redirect("/login");
+    }
+
+    const user = req.session.user;
+
+    // displays dashboard if user is an admin
+
+    if(user.role === 'admin'){
+        return res.render("landing", { user, users: USERS });
+    }else {
+        return res.render("landing", { user, users : null});
+    }
+});
+
+app.post("/logout", (req, res) => {
+    req.session.destroy(err => {
+        if(err){
+            return res.status(500).send("Cannot logout. Please retry.");
+        }
+        res.redirect("/");
+    });
 });
 
 // Start server
