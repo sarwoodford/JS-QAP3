@@ -13,7 +13,9 @@
     <% }) %>
 </ul>
 <% } else { %>
-    <p>Nothing to see here!</p>
+    <p>
+        <%= user.username %>'s dashboard
+    </p>
 <% } %>
 
 <form action= "/logout" method= "POST">
