@@ -57,7 +57,7 @@ app.post("/login", async (req, res) => {
     // make sure password is valid 
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword){
-        return res.render("login", {error : "Invalid login information entered. Please retry."})
+        return res.render("login", {error : "Invalid login information entered. Please retry."});
     }
 
     // save user 
@@ -100,6 +100,7 @@ app.post("/signup", async (req, res) => {
 
     // add new user to users 
     USERS.push(newUser);
+    // send users to log in after they sign up
     res.redirect("/login");
 });
 
