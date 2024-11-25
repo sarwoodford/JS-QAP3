@@ -1,5 +1,5 @@
 body {
-    background: linear-gradient(90deg, rgb(16, 111, 59) 0%, rgb(36, 123, 75) 50%, rgb(23, 120, 82) 100%);
+    background: linear-gradient(90deg, rgb(54, 151, 98) 0%, rgb(18, 113, 61) 50%, rgb(48, 151, 95) 100%);
     height: 100%;
     padding: 0px;
     margin: 0px;
@@ -52,6 +52,8 @@ body {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+    margin-left: -60px;
+    padding: 10px;
 }
 
 .main-content form .form-input-container {
@@ -59,18 +61,24 @@ body {
     justify-content: center;
     align-items: center;
     margin-bottom: 10px;
+    padding: 10px;
 }
 
 .main-content form label {
     padding-right: 5px;
+    font-size: 20pt;
 }
 
 .main-content form input {
     border-radius: 5px;
     border: 0px;
-    font-size: 14px;
+    font-size: 20pt;
     padding: 5px;
+    color: white;
+    background-color: transparent;
+    border: 1px solid white;
 }
+
 
 .main-content button {
     border: none;
@@ -78,7 +86,7 @@ body {
     mix-blend-mode: screen;
     padding: 6px;
     border-radius: 5px;
-    /* margin-left: 5px; */
+    margin-left: 5px;
     cursor: pointer;
 }
 
@@ -97,5 +105,7 @@ body {
     font-size: 30pt;
     margin: 10px;
 }
+
+
 
 
