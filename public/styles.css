@@ -1,5 +1,5 @@
 body {
-    background: linear-gradient(90deg, rgba(93,142,251,1) 0%, rgba(93,142,251,1) 50%, rgba(0,212,255,1) 100%);
+    background: linear-gradient(90deg, rgb(54, 151, 98) 0%, rgb(18, 113, 61) 50%, rgb(48, 151, 95) 100%);
     height: 100%;
     padding: 0px;
     margin: 0px;
@@ -52,6 +52,8 @@ body {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+    margin-left: -60px;
+    padding: 10px;
 }
 
 .main-content form .form-input-container {
@@ -59,18 +61,24 @@ body {
     justify-content: center;
     align-items: center;
     margin-bottom: 10px;
+    padding: 10px;
 }
 
 .main-content form label {
     padding-right: 5px;
+    font-size: 20pt;
 }
 
 .main-content form input {
     border-radius: 5px;
     border: 0px;
-    font-size: 14px;
+    font-size: 20pt;
     padding: 5px;
+    color: white;
+    background-color: transparent;
+    border: 1px solid white;
 }
+
 
 .main-content button {
     border: none;
@@ -85,4 +93,28 @@ body {
 .main-content .index-button-container button {
     font-size: 25px;
     padding: 10px;
+    border: 0;
+    font-size: 30pt;
+    margin: 10px;
+}
+
+.main-content .index-button-container button:hover{
+    font-size: 27px;
+    padding: 12px;
+    border: 0;
+    font-size: 30pt;
+    margin: 10px;
+}
+
+#error{
+    background-color: white;
+    margin-left: 50px;
+    padding: 3px;
+    border: 1px solid red;
+    
+}
+
+#logOut{
+    margin-left: 50px;
+    margin-top: 10px;
 }

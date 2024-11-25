@@ -2,7 +2,8 @@
     <h1>Login</h1>
 
     <% if(typeof error !== 'undefined' && error){ %>
-        <p> <% error %> </p>
+        <p style="color: red;" id="error"> <%= error %> </p>
+        <% console.log("error"); %>
     <% } %>
 
     <form action="/login" method="POST">
